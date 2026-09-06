@@ -19,14 +19,14 @@
       "short_name": "Vault",
       "description": "Open your receipt and warranty vault.",
       "url": "/vault.html",
-      "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "QR vault",
       "short_name": "QR codes",
       "description": "Open your saved QR codes.",
       "url": "/qr-vault.html",
-      "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],
   "protocol_handlers": [
@@ -37,25 +37,31 @@
   ],
   "screenshots": [
     {
-      "src": "/icons/screenshot-wide.svg",
+      "src": "/icons/screenshot-wide.png",
       "sizes": "1280x720",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "form_factor": "wide",
       "label": "Proofly desktop vault"
     },
     {
-      "src": "/icons/screenshot-mobile.svg",
+      "src": "/icons/screenshot-mobile.png",
       "sizes": "390x844",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "form_factor": "narrow",
       "label": "Proofly mobile vault"
     }
   ],
   "icons": [
     {
-      "src": "/icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
