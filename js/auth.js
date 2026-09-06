@@ -42,8 +42,16 @@ export async function signInWithGoogle() {
   if (!firebaseAvailable) {
     return saveLocalUser({ uid: "local-demo-user", displayName: "Amin", email: "demo@proofly.app", isLocal: true });
   }
-  const result = await auth.signInWithPopup(googleProvider);
-  return result.user;
+  try {
+    const result = await auth.signInWithPopup(googleProvider);
+    return result.user;
+  } catch (error) {
+    if (["auth/popup-blocked", "auth/popup-timeout", "auth/cancelled-popup-request"].includes(error?.code)) {
+      await auth.signInWithRedirect(googleProvider);
+      return null;
+    }
+    throw error;
+  }
 }
 
 export async function signInWithEmail(email, password, createAccount = false) {

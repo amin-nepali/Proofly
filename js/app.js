@@ -225,7 +225,7 @@ function bindActions(receiptForm) {
     if (action === "open-receipt-form") { closeModal($("[data-modal='scanner']")); openModal("receipt-form"); }
     if (action === "enter-qr-manually") { closeScanner(); $("#qr-reader").hidden = true; $("[data-qr-form]").hidden = false; $("[data-qr-form] input[name='name']").focus(); }
     if (action === "google-sign-in") {
-      try { const user = await signInWithGoogle(); handleAuthUser(user); closeModal($("[data-modal='auth']")); showToast("Welcome to your vault."); } catch (error) { showToast(getAuthErrorMessage(error)); }
+      try { const user = await signInWithGoogle(); if (user) { handleAuthUser(user); closeModal($("[data-modal='auth']")); showToast("Welcome to your vault."); } } catch (error) { showToast(getAuthErrorMessage(error)); }
     }
     if (action === "resend-verification") {
       try { await resendVerificationEmail(); showToast("Verification email sent again."); } catch (error) { showToast(getAuthErrorMessage(error)); }
@@ -237,6 +237,7 @@ function bindActions(receiptForm) {
       state.authMode = state.authMode === "signIn" ? "create" : "signIn";
       actionElement.textContent = state.authMode === "create" ? "Sign in instead" : "Create an account";
       $("[data-auth-form] .button").firstChild.textContent = state.authMode === "create" ? "Create account " : "Sign in ";
+      $("[data-auth-form] input[name='password']").setAttribute("autocomplete", state.authMode === "create" ? "new-password" : "current-password");
     }
     if (action === "toggle-theme") setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
     if (action === "export-vault") exportVault();
