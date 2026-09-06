@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102321">
+  <meta name="description" content="Proofly keeps receipts, warranties, and proof of purchase in one secure vault.">
+  <title>Proofly | Your proof, protected</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script type="module" src="js/app.js" defer></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("sw.js", { scope: "./" }));
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Proofly home">
+        <img class="brand-logo" src="icons/proofly-logo.svg" alt="Proofly by Amin">
+      </a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link is-active" href="vault.html">My vault</a>
+        <a class="nav-link" href="qr-vault.html">QR codes</a>
+        <button class="icon-button theme-toggle" type="button" data-action="toggle-theme" aria-label="Toggle color theme" title="Toggle color theme">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2M5.64 5.64l1.42 1.42m9.9 9.9 1.4 1.4M3 12h2m14 0h2M5.64 18.36l1.42-1.4m9.9-9.9 1.4-1.42M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+        </button>
+        <button class="avatar-button" type="button" data-action="open-auth" aria-label="Open account menu">AM</button>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="welcome-section" aria-labelledby="welcome-title">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-dot"></span> Your personal proof vault</p>
+          <h1 id="welcome-title">Keep the proof.<br><em>Lose the worry.</em></h1>
+          <p class="intro-copy">Receipts, warranties, and serial numbers, kept together and ready when you need them.</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="button button-primary" type="button" data-action="open-scanner">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2m6 0h2a1 1 0 0 1 1 1v2m0 10v2a1 1 0 0 1-1 1h-2m-6 0H5a1 1 0 0 1-1-1v-2M8 12h8m-4-4v8"/></svg>
+            Scan a receipt
+          </button>
+          <button class="button button-secondary" type="button" data-action="open-receipt-form">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+            Add manually
+          </button>
+          <button class="button button-qr" type="button" data-action="open-qr-capture">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zm4 0h2v2h-2zm-4 4h2v2h-2zm4 0h2v2h-2z"/></svg>
+            Save a QR code
+          </button>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Vault summary">
+        <article class="stat-card stat-card-dark">
+          <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v14l-8-3-8 3V6a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 11h6"/></svg></div>
+          <div><p class="stat-label">Total saved</p><p class="stat-value" data-stat="total">12 <small>receipts</small></p></div>
+          <span class="stat-trend">+3 this month</span>
+        </article>
+        <article class="stat-card stat-card-sage">
+          <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div>
+          <div><p class="stat-label">Protected value</p><p class="stat-value">$4,280<small> tracked</small></p></div>
+          <span class="stat-trend is-dark">this year</span>
+        </article>
+        <article class="stat-card stat-card-coral">
+          <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 8v4l2.5 2.5"/><circle cx="12" cy="12" r="8"/></svg></div>
+          <div><p class="stat-label">Expiring soon</p><p class="stat-value">02 <small>warranties</small></p></div>
+          <span class="stat-trend is-alert">within 30 days</span>
+        </article>
+      </section>
+
+      <section class="home-launchers" aria-labelledby="workspace-title">
+        <div class="section-heading"><div><p class="eyebrow">Your workspace</p><h2 id="workspace-title">Open a vault</h2></div><p>Keep the home screen calm. Jump into the right collection when you are ready.</p></div>
+        <div class="launcher-grid">
+          <a class="launcher-card launcher-receipts" href="vault.html"><span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-7-3-7 3V4Z"/><path d="M8 8h8M8 11h6"/></svg></span><span><strong>Purchased items</strong><small>Receipts, warranties, and product images</small></span><span class="launcher-arrow" aria-hidden="true">&#8594;</span></a>
+          <a class="launcher-card launcher-qr" href="qr-vault.html"><span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zm4 0h2v2h-2zm-4 4h2v2h-2zm4 0h2v2h-2z"/></svg></span><span><strong>QR vault</strong><small>Saved codes, wallets, Wi-Fi, and payment links</small></span><span class="launcher-arrow" aria-hidden="true">&#8594;</span></a>
+        </div>
+      </section>
+      <section class="vault-section" id="vault" aria-labelledby="vault-title" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">Everything in one place</p><h2 id="vault-title">Your vault</h2></div>
+          <button class="text-button" type="button" data-action="export-vault">Export vault <span aria-hidden="true">&#8599;</span></button>
+        </div>
+        <div class="toolbar">
+          <label class="search-field">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <span class="visually-hidden">Search vault</span>
+            <input type="search" data-search placeholder="Search products, brands, or categories">
+          </label>
+          <div class="filter-tabs" role="group" aria-label="Filter receipts">
+            <button class="filter-tab is-active" type="button" data-filter="all">All <span>12</span></button>
+            <button class="filter-tab" type="button" data-filter="warranty">Warranty <span>4</span></button>
+            <button class="filter-tab" type="button" data-filter="expiring">Expiring <span>2</span></button>
+          </div>
+          <button class="icon-button filter-button" type="button" data-action="open-filters" aria-label="More filters" title="More filters"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button>
+        </div>
+
+        <div class="receipt-grid" data-receipt-list>
+          <article class="receipt-card" data-category="warranty" data-name="sony wh-1000xm5 headphones">
+            <div class="receipt-visual product-headphones"><span class="product-label">SONY</span><div class="headphone-shape" aria-hidden="true"></div><span class="product-type">WH-1000XM5</span></div>
+            <div class="receipt-body"><div class="receipt-topline"><span class="category-label">Electronics</span><button class="more-button" type="button" aria-label="More options for Sony headphones" title="More options">&#8942;</button></div><h3>Sony WH-1000XM5</h3><p class="receipt-meta">Purchased Mar 14, 2025 <span>$348.00</span></p><div class="receipt-footer"><span class="status status-active"><i></i> Warranty active</span><span class="receipt-date">Until Mar 14, 2026</span></div></div>
+          </article>
+          <article class="receipt-card" data-category="expiring warranty" data-name="dyson v15 detect absolute">
+            <div class="receipt-visual product-vacuum"><span class="product-label">dyson</span><div class="vacuum-shape" aria-hidden="true"></div><span class="product-type">V15 detect</span></div>
+            <div class="receipt-body"><div class="receipt-topline"><span class="category-label">Home</span><button class="more-button" type="button" aria-label="More options for Dyson vacuum" title="More options">&#8942;</button></div><h3>Dyson V15 Detect Absolute</h3><p class="receipt-meta">Purchased Jun 02, 2024 <span>$749.00</span></p><div class="receipt-footer"><span class="status status-warning"><i></i> Expires in 21 days</span><span class="receipt-date">Jun 02, 2026</span></div></div>
+          </article>
+          <article class="receipt-card" data-category="warranty" data-name="apple macbook air m3">
+            <div class="receipt-visual product-laptop"><span class="product-label">APPLE</span><div class="laptop-shape" aria-hidden="true"></div><span class="product-type">MacBook Air</span></div>
+            <div class="receipt-body"><div class="receipt-topline"><span class="category-label">Electronics</span><button class="more-button" type="button" aria-label="More options for MacBook Air" title="More options">&#8942;</button></div><h3>MacBook Air M3</h3><p class="receipt-meta">Purchased Jan 22, 2026 <span>$1,099.00</span></p><div class="receipt-footer"><span class="status status-active"><i></i> Warranty active</span><span class="receipt-date">Until Jan 22, 2027</span></div></div>
+          </article>
+          <article class="receipt-card" data-category="warranty" data-name="patagonia torrentshell jacket">
+            <div class="receipt-visual product-jacket"><span class="product-label">PATAGONIA</span><div class="jacket-shape" aria-hidden="true"></div><span class="product-type">Torrentshell 3L</span></div>
+            <div class="receipt-body"><div class="receipt-topline"><span class="category-label">Apparel</span><button class="more-button" type="button" aria-label="More options for Patagonia jacket" title="More options">&#8942;</button></div><h3>Patagonia Torrentshell</h3><p class="receipt-meta">Purchased Feb 08, 2026 <span>$179.00</span></p><div class="receipt-footer"><span class="status status-active"><i></i> Guarantee active</span><span class="receipt-date">Lifetime guarantee</span></div></div>
+          </article>
+        </div>
+        <div class="empty-state" data-empty-state hidden><p class="empty-mark">/</p><h3>No receipts found</h3><p>Try another search or add a receipt to your vault.</p></div>
+        <button class="load-more" type="button" data-action="load-more">Load more receipts <span aria-hidden="true">&#8595;</span></button>
+      </section>
+      <section class="qr-section" id="qr-vault" aria-labelledby="qr-vault-title" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">Ready when you need it</p><h2 id="qr-vault-title">QR vault</h2></div>
+          <button class="text-button" type="button" data-action="open-qr-capture">Capture QR <span aria-hidden="true">&#8594;</span></button>
+        </div>
+        <div class="qr-toolbar">
+          <p>Save Wi-Fi details, payment addresses, merchant links, and anything else you scan.</p>
+          <div class="qr-filters" role="group" aria-label="Filter QR codes">
+            <button class="qr-filter is-active" type="button" data-qr-filter="all">All</button>
+            <button class="qr-filter" type="button" data-qr-filter="wifi">Wi-Fi</button>
+            <button class="qr-filter" type="button" data-qr-filter="payment">Payments</button>
+            <button class="qr-filter" type="button" data-qr-filter="other">Other</button>
+          </div>
+        </div>
+        <div class="qr-grid" data-qr-list></div>
+        <div class="qr-empty" data-qr-empty><div class="qr-empty-mark">⌗</div><h3>Your QR shelf is empty</h3><p>Capture a code once, then regenerate it whenever you need to share it.</p><button class="button button-secondary" type="button" data-action="open-qr-capture">Save your first QR</button></div>
+      </section>
+      <aside class="upgrade-banner"><div class="upgrade-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.1 5.3L20 10l-4.5 3.8L16.8 20 12 16.8 7.2 20l1.3-6.2L4 10l5.9-1.7L12 3Z"/></svg></div><div><strong>Make room for more proof</strong><p>You are using 12 of 15 free receipt slots.</p></div><button class="button button-light" type="button" data-action="upgrade">Upgrade plan <span aria-hidden="true">&#8594;</span></button></aside>
+    </main>
+    <footer class="site-footer"><span>Proofly by Amin</span><span>Private by design. Built for peace of mind.</span><a href="#privacy">Privacy</a></footer>
+  </div>
+
+  <dialog class="modal" id="auth-modal" data-modal="auth">
+    <button class="modal-close" type="button" data-action="close-modal" aria-label="Close account dialog">&times;</button>
+    <div class="modal-heading"><img class="modal-logo" src="icons/proofly-logo.svg" alt="Proofly by Amin"><p class="eyebrow">Welcome to Proofly</p><h2>Keep your vault<br><em>with you.</em></h2><p>Sign in to sync every receipt across your devices.</p></div>
+    <button class="button google-button" type="button" data-action="google-sign-in"><span class="google-g">G</span> Continue with Google</button>
+    <div class="divider"><span>or use email</span></div>
+    <form class="auth-form" data-auth-form><label>Email address<input type="email" name="email" autocomplete="email" required></label><label>Password<input type="password" name="password" autocomplete="current-password" minlength="6" required></label><button class="button button-primary" type="submit">Sign in <span aria-hidden="true">&#8594;</span></button></form>
+    <p class="form-note">New here? <button type="button" class="inline-button" data-action="switch-auth">Create an account</button></p>
+  </dialog>
+
+  <dialog class="modal scanner-modal" id="scanner-modal" data-modal="scanner">
+    <button class="modal-close" type="button" data-action="close-modal" aria-label="Close scanner">&times;</button>
+    <div class="modal-heading"><p class="eyebrow">Quick capture</p><h2>Scan a receipt</h2><p>Point your camera at the QR code or barcode on your receipt.</p></div>
+    <div id="reader" class="scanner-reader"><div class="scanner-frame"><span></span></div><p>Camera preview will appear here</p></div>
+    <div class="scanner-actions"><button class="button button-secondary" type="button" data-action="upload-receipt"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Upload image</button><button class="text-button" type="button" data-action="open-receipt-form">Enter manually</button></div>
+  </dialog>
+  <dialog class="modal qr-capture-modal" id="qr-capture-modal" data-modal="qr-capture">
+    <button class="modal-close" type="button" data-action="close-modal" aria-label="Close QR capture">&times;</button>
+    <div class="modal-heading"><p class="eyebrow">Capture once, use anywhere</p><h2>Save a QR code</h2><p>Scan a code, give it a memorable name, and keep its original information safe.</p></div>
+    <div id="qr-reader" class="scanner-reader qr-reader"><div class="scanner-frame"><span></span></div><p>Camera preview will appear here</p></div>
+    <div class="qr-capture-actions"><button class="button button-secondary" type="button" data-action="upload-qr"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Upload QR image</button><button class="text-button" type="button" data-action="enter-qr-manually">Enter information manually</button></div>
+    <form class="qr-form" data-qr-form hidden><label>Name<input name="name" required maxlength="80" placeholder="e.g. Home Wi-Fi or Main wallet"></label><label>Type<select name="type"><option value="wifi">Wi-Fi</option><option value="bank">Bank account</option><option value="wallet">Wallet</option><option value="merchant">Merchant</option><option value="payment">Payment</option><option value="contact">Contact</option><option value="other">Other</option></select></label><label>QR information<textarea name="payload" required rows="4" placeholder="The information encoded in this QR code"></textarea></label><button class="button button-primary" type="submit">Save to QR vault <span aria-hidden="true">&#8594;</span></button></form>
+  </dialog>
+  <dialog class="modal qr-view-modal" id="qr-view-modal" data-modal="qr-view">
+    <button class="modal-close" type="button" data-action="close-modal" aria-label="Close QR code">&times;</button>
+    <div class="modal-heading"><p class="eyebrow" data-qr-view-type>Saved QR code</p><h2 data-qr-view-name>QR code</h2><p>Show this code to another device or share the saved information.</p></div>
+    <div class="qr-output" data-qr-output></div>
+    <div class="qr-payload-preview" data-qr-view-payload></div>
+    <div class="qr-view-actions"><button class="button button-primary" type="button" data-action="share-qr">Share QR</button><button class="button button-secondary" type="button" data-action="download-qr">Download image</button><button class="text-button" type="button" data-action="copy-qr">Copy information</button></div>
+  </dialog>
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <noscript><div class="noscript-message">Proofly needs JavaScript enabled to manage your receipt vault.</div></noscript>
+</body>
+</html>

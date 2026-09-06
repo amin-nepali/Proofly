@@ -1,0 +1,40 @@
+{
+  "name": "Proofly by Amin",
+  "short_name": "Proofly",
+  "description": "Receipts, warranties, and proof of purchase in one secure vault.",
+  "id": "./?source=pwa",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f6f1",
+  "theme_color": "#102321",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["finance", "productivity", "utilities"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Scan a receipt",
+      "short_name": "Scan",
+      "description": "Capture a receipt with your camera",
+      "url": "./qr-vault.html",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Open my vault",
+      "short_name": "Vault",
+      "description": "View saved receipts and warranties",
+      "url": "./vault.html",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}

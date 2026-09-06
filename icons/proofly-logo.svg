@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 570" role="img" aria-labelledby="title description">
+  <title id="title">Proofly</title>
+  <description id="description">Proofly Digital Receipt and Warranty Vault logo</description>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16b6a7"/>
+      <stop offset=".52" stop-color="#108fbd"/>
+      <stop offset="1" stop-color="#293fc4"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1db8a8"/>
+      <stop offset="1" stop-color="#127ab4"/>
+    </linearGradient>
+    <linearGradient id="lock" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1269be"/>
+      <stop offset="1" stop-color="#2354ba"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#172b81"/>
+      <stop offset="1" stop-color="#3340a5"/>
+    </linearGradient>
+  </defs>
+  <path d="M228 38h178c39 0 70 31 70 70v32l-78 48H282v84H126V146l102-108Z" fill="url(#paper)"/>
+  <path d="M126 146h78c26 0 48-22 48-48V38" fill="none" stroke="#f5fbfc" stroke-width="18"/>
+  <path d="M145 205h99M145 254h85M145 303h89" fill="none" stroke="#2d55bc" stroke-linecap="round" stroke-width="15"/>
+  <path d="M172 354c31-69 77-101 139-103 49-2 81-22 117-61 32 44 75 66 128 67v42c0 106-55 167-128 198-73-31-128-92-128-198v-18c-50 7-93 32-128 73Z" fill="url(#shield)" stroke="#eefbfb" stroke-width="14"/>
+  <path d="M296 303v-25c0-35 26-63 58-63s58 28 58 63v25" fill="none" stroke="#f2ffff" stroke-width="22"/>
+  <rect x="280" y="292" width="148" height="116" rx="17" fill="url(#lock)"/>
+  <circle cx="354" cy="342" r="15" fill="#f4ffff"/>
+  <path d="M354 351v27" stroke="#f4ffff" stroke-linecap="round" stroke-width="12"/>
+  <text x="75" y="493" fill="url(#ink)" font-family="Arial, sans-serif" font-size="105" font-weight="700" letter-spacing="-5">Proofly</text>
+  <text x="78" y="542" fill="#27305a" font-family="Arial, sans-serif" font-size="25" letter-spacing="1.4">Digital Receipt &amp; Warranty Vault</text>
+</svg>
