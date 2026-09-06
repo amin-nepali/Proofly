@@ -10,7 +10,9 @@ function getAuthErrorMessage(error) {
     "auth/email-already-in-use": "An account already exists for that email.",
     "auth/weak-password": "Use a password with at least six characters.",
     "auth/popup-closed-by-user": "The sign-in window was closed.",
-    "auth/operation-not-allowed": "This sign-in method is not enabled yet."
+    "auth/operation-not-allowed": "This sign-in method is not enabled yet.",
+    "auth/email-not-verified": "Verify your email address before signing in.",
+    "auth/too-many-requests": "Too many attempts. Please wait and try again."
   };
   return messages[error?.code] || "We could not sign you in. Please try again.";
 }
@@ -51,7 +53,37 @@ export async function signInWithEmail(email, password, createAccount = false) {
   const result = createAccount
     ? await auth.createUserWithEmailAndPassword(email, password)
     : await auth.signInWithEmailAndPassword(email, password);
+  await result.user.reload();
+  if (createAccount) {
+    await result.user.sendEmailVerification();
+    return { user: result.user, verificationRequired: true };
+  }
+  if (!result.user.emailVerified) {
+    await auth.signOut();
+    const error = new Error("Email verification required.");
+    error.code = "auth/email-not-verified";
+    throw error;
+  }
   return result.user;
+}
+
+export function isEmailPasswordUser(user) {
+  return Boolean(user?.providerData?.some((provider) => provider.providerId === "password"));
+}
+
+export function isUserVerified(user) {
+  return Boolean(user?.isLocal || !isEmailPasswordUser(user) || user.emailVerified);
+}
+
+export async function resendVerificationEmail() {
+  if (!firebaseAvailable || !auth.currentUser) return;
+  await auth.currentUser.sendEmailVerification();
+}
+
+export async function refreshCurrentUser() {
+  if (!firebaseAvailable || !auth.currentUser) return null;
+  await auth.currentUser.reload();
+  return auth.currentUser;
 }
 
 export async function signOut() {

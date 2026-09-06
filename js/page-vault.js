@@ -1,4 +1,4 @@
-import { observeAuthState } from "./auth.js";
+import { isUserVerified, observeAuthState } from "./auth.js";
 import { deleteReceipt, isExpiringSoon, subscribeToReceipts } from "./vault.js";
 import { initPageShell } from "./page-common.js";
 
@@ -43,4 +43,4 @@ document.addEventListener("click", async (event) => {
 });
 $("[data-search]").addEventListener("input", (event) => { state.query = event.target.value.toLowerCase().trim(); render(); });
 initPageShell();
-observeAuthState((user) => { state.user = user; state.unsubscribe(); state.unsubscribe = subscribeToReceipts(user, (receipts) => { state.receipts = receipts; render(); }); render(); });
+observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToReceipts(verifiedUser, (receipts) => { state.receipts = receipts; render(); }); render(); });

@@ -1,4 +1,4 @@
-import { getAuthErrorMessage, observeAuthState, signInWithEmail, signInWithGoogle, signOut } from "./auth.js";
+import { getAuthErrorMessage, isUserVerified, observeAuthState, refreshCurrentUser, resendVerificationEmail, signInWithEmail, signInWithGoogle, signOut } from "./auth.js";
 import { bindImageUpload, closeScanner, openScanner } from "./scanner.js";
 import { addQrCode, addReceipt, deleteQrCode, deleteReceipt, isExpiringSoon, MAX_FREE_RECEIPTS, subscribeToQrCodes, subscribeToReceipts } from "./vault.js";
 
@@ -24,6 +24,11 @@ function showToast(message) {
   toast.classList.add("is-visible");
   window.clearTimeout(showToast.timeout);
   showToast.timeout = window.setTimeout(() => toast.classList.remove("is-visible"), 3500);
+}
+
+function showVerificationPanel(visible) {
+  const panel = $("[data-verification-panel]");
+  if (panel) panel.hidden = !visible;
 }
 
 function openModal(name) {
@@ -92,6 +97,20 @@ function renderAuthState(user) {
   avatar.textContent = user ? (user.displayName || user.email || "A").slice(0, 2).toUpperCase() : "AM";
   avatar.setAttribute("aria-label", user ? "Sign out" : "Open account menu");
   renderReceipts();
+}
+
+function handleAuthUser(user) {
+  if (user && !isUserVerified(user)) {
+    state.user = null;
+    showVerificationPanel(true);
+    subscribeUser(null);
+    renderReceipts();
+    openModal("auth");
+    return;
+  }
+  showVerificationPanel(false);
+  renderAuthState(user);
+  subscribeUser(user);
 }
 
 function subscribeUser(user) {
@@ -206,7 +225,13 @@ function bindActions(receiptForm) {
     if (action === "open-receipt-form") { closeModal($("[data-modal='scanner']")); openModal("receipt-form"); }
     if (action === "enter-qr-manually") { closeScanner(); $("#qr-reader").hidden = true; $("[data-qr-form]").hidden = false; $("[data-qr-form] input[name='name']").focus(); }
     if (action === "google-sign-in") {
-      try { const user = await signInWithGoogle(); renderAuthState(user); subscribeUser(user); closeModal($("[data-modal='auth']")); showToast("Welcome to your vault."); } catch (error) { showToast(getAuthErrorMessage(error)); }
+      try { const user = await signInWithGoogle(); handleAuthUser(user); closeModal($("[data-modal='auth']")); showToast("Welcome to your vault."); } catch (error) { showToast(getAuthErrorMessage(error)); }
+    }
+    if (action === "resend-verification") {
+      try { await resendVerificationEmail(); showToast("Verification email sent again."); } catch (error) { showToast(getAuthErrorMessage(error)); }
+    }
+    if (action === "check-verification") {
+      try { const user = await refreshCurrentUser(); if (!user || !isUserVerified(user)) { showToast("Your email is not verified yet."); } else { handleAuthUser(user); closeModal($("[data-modal='auth']")); showToast("Email verified. Welcome to your vault."); } } catch (error) { showToast(getAuthErrorMessage(error)); }
     }
     if (action === "switch-auth") {
       state.authMode = state.authMode === "signIn" ? "create" : "signIn";
@@ -231,7 +256,7 @@ function bindActions(receiptForm) {
   $("[data-search]").addEventListener("input", (event) => { state.query = event.target.value.trim().toLowerCase(); renderReceipts(); });
   $("[data-search]").addEventListener("input", (event) => { state.query = event.target.value.trim().toLowerCase(); renderQrCodes(); });
   $$('[data-filter]').forEach((button) => button.addEventListener("click", () => { state.filter = button.dataset.filter; $$('[data-filter]').forEach((item) => item.classList.toggle("is-active", item === button)); renderReceipts(); }));
-  $("[data-auth-form]").addEventListener("submit", async (event) => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); try { const user = await signInWithEmail(data.email, data.password, state.authMode === "create"); renderAuthState(user); subscribeUser(user); closeModal($("[data-modal='auth']")); showToast(state.authMode === "create" ? "Your vault is ready." : "Welcome back."); } catch (error) { showToast(getAuthErrorMessage(error)); } });
+  $("[data-auth-form]").addEventListener("submit", async (event) => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); try { const result = await signInWithEmail(data.email, data.password, state.authMode === "create"); if (result?.verificationRequired) { showVerificationPanel(true); openModal("auth"); showToast("Verify your email before entering your vault."); } else { handleAuthUser(result); closeModal($("[data-modal='auth']")); showToast(state.authMode === "create" ? "Welcome to your vault." : "Welcome back."); } } catch (error) { showToast(getAuthErrorMessage(error)); } });
   receiptForm.querySelector("[data-receipt-form]").addEventListener("submit", handleReceiptSubmit);
   $("[data-qr-form]").addEventListener("submit", async (event) => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); if (!state.user) return; try { const savedQrCode = await addQrCode(state.user, data); state.qrCodes = [savedQrCode, ...state.qrCodes.filter((qrCode) => qrCode.id !== savedQrCode.id)]; renderQrCodes(); closeModal($("[data-modal='qr-capture']")); showToast("QR code saved to your vault."); } catch { showToast("We could not save that QR code."); } });
   $$('[data-qr-filter]').forEach((button) => button.addEventListener("click", () => { state.qrFilter = button.dataset.qrFilter; $$('[data-qr-filter]').forEach((item) => item.classList.toggle("is-active", item === button)); renderQrCodes(); }));
@@ -267,7 +292,7 @@ bindImageUpload(qrUploadInput, (result) => {
   $("[data-qr-form] input[name='name']").focus();
   showToast(result ? "QR information captured. Give it a name." : "No QR code found in that image.");
 }, "qr-reader");
-observeAuthState((user) => { renderAuthState(user); subscribeUser(user); });
+observeAuthState(handleAuthUser);
 
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;

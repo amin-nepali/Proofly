@@ -1,4 +1,4 @@
-import { observeAuthState } from "./auth.js";
+import { isUserVerified, observeAuthState } from "./auth.js";
 import { addQrCode, deleteQrCode, subscribeToQrCodes } from "./vault.js";
 import { initPageShell } from "./page-common.js";
 
@@ -48,4 +48,4 @@ document.addEventListener("click", async (event) => {
   if (remove && state.user && window.confirm("Delete this QR code?")) { await deleteQrCode(state.user, remove.dataset.deleteQr); state.qrCodes = state.qrCodes.filter((item) => item.id !== remove.dataset.deleteQr); render(); toast("QR code deleted."); }
 });
 initPageShell();
-observeAuthState((user) => { state.user = user; state.unsubscribe(); state.unsubscribe = subscribeToQrCodes(user, (qrCodes) => { state.qrCodes = qrCodes; render(); }); render(); });
+observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToQrCodes(verifiedUser, (qrCodes) => { state.qrCodes = qrCodes; render(); }); render(); });
