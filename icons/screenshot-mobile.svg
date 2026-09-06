@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844">
+  <rect width="390" height="844" fill="#0b0f19"/>
+  <rect x="18" y="18" width="354" height="808" rx="24" fill="#121a2a" stroke="#334155"/>
+  <rect x="42" y="52" width="142" height="28" rx="14" fill="#cce8d5"/>
+  <text x="57" y="72" fill="#102321" font-family="Arial, sans-serif" font-size="16" font-weight="700">PROOFLY</text>
+  <text x="42" y="154" fill="#f8fafc" font-family="Arial, sans-serif" font-size="30" font-weight="700">Your proof,</text>
+  <text x="42" y="190" fill="#f4b8a7" font-family="Arial, sans-serif" font-size="30" font-weight="700">protected.</text>
+  <text x="42" y="232" fill="#94a3b8" font-family="Arial, sans-serif" font-size="16">Your receipts and warranties,</text>
+  <text x="42" y="256" fill="#94a3b8" font-family="Arial, sans-serif" font-size="16">ready when you need them.</text>
+  <rect x="42" y="302" width="306" height="138" rx="16" fill="#1e293b"/>
+  <text x="66" y="342" fill="#cce8d5" font-family="Arial, sans-serif" font-size="14">TOTAL SAVED</text>
+  <text x="66" y="392" fill="#f8fafc" font-family="Arial, sans-serif" font-size="32" font-weight="700">0 receipts</text>
+  <rect x="42" y="460" width="306" height="138" rx="16" fill="#1e293b"/>
+  <text x="66" y="500" fill="#cce8d5" font-family="Arial, sans-serif" font-size="14">PROTECTED VALUE</text>
+  <text x="66" y="550" fill="#f8fafc" font-family="Arial, sans-serif" font-size="32" font-weight="700">$0 tracked</text>
+</svg>

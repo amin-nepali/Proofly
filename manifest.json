@@ -1,22 +1,62 @@
 {
   "name": "Proofly: Digital Receipt & Warranty Vault",
   "short_name": "Proofly",
+  "id": "/",
+  "lang": "en",
+  "dir": "ltr",
   "description": "Digital Receipt & Warranty Vault by Amin",
-  "start_url": "/",
+  "start_url": "/index.html",
   "scope": "/",
+  "display_override": ["window-controls-overlay", "standalone"],
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0b0f19",
   "theme_color": "#6366f1",
-  "icons": [
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
     {
-      "src": "/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "name": "Purchased items",
+      "short_name": "Vault",
+      "description": "Open your receipt and warranty vault.",
+      "url": "/vault.html",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
     },
     {
-      "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "name": "QR vault",
+      "short_name": "QR codes",
+      "description": "Open your saved QR codes.",
+      "url": "/qr-vault.html",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+proofly",
+      "url": "/index.html?proofly=%s"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/screenshot-wide.svg",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Proofly desktop vault"
+    },
+    {
+      "src": "/icons/screenshot-mobile.svg",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "Proofly mobile vault"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }

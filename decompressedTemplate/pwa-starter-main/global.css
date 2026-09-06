@@ -1,0 +1,61 @@
+
+/*
+  This file is used for all of your CSS variables and any styles that apply globally.
+  Check here https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties for more info on using CSS variables.
+*/
+:root {
+  --font-family: sans-serif;
+
+  /* Opt into both schemes so the light-dark() function below resolves
+     against the user's preferred color scheme. */
+  color-scheme: light dark;
+
+  /*
+    Web Awesome theme colors.
+
+    Reassign the "brand" variant to a custom hue by pointing its palette
+    tokens at one of Web Awesome's built-in color scales (here: indigo).
+    Because Web Awesome derives its semantic brand tokens (fills, borders,
+    on-colors) from these --wa-color-brand-* tints, this single remap
+    recolors every brand element: variant="brand" buttons, links, focus
+    rings, and more. Swap `indigo` for any palette (blue, purple, cyan, …).
+  */
+  --wa-color-brand-95: var(--wa-color-indigo-95);
+  --wa-color-brand-90: var(--wa-color-indigo-90);
+  --wa-color-brand-80: var(--wa-color-indigo-80);
+  --wa-color-brand-70: var(--wa-color-indigo-70);
+  --wa-color-brand-60: var(--wa-color-indigo-60);
+  --wa-color-brand-50: var(--wa-color-indigo-50);
+  --wa-color-brand-40: var(--wa-color-indigo-40);
+  --wa-color-brand-30: var(--wa-color-indigo-30);
+  --wa-color-brand-20: var(--wa-color-indigo-20);
+  --wa-color-brand-10: var(--wa-color-indigo-10);
+  --wa-color-brand-05: var(--wa-color-indigo-05);
+  --wa-color-brand: var(--wa-color-indigo);
+  --wa-color-brand-on: var(--wa-color-indigo-on);
+
+  /*
+    App-level color aliases built on Web Awesome tokens. Prefer these in
+    components so the app stays consistent and adapts to light/dark mode.
+  */
+  --app-color-primary: var(--wa-color-brand-fill-loud);
+  --app-color-on-primary: var(--wa-color-brand-on-loud);
+  --app-color-surface: var(--wa-color-surface-default);
+  --app-color-text: var(--wa-color-text-normal);
+  --app-color-link: var(--wa-color-text-link);
+}
+
+html, body {
+  font-family: var(--font-family);
+  padding: 0;
+  margin: 0;
+
+  height: 100%;
+
+  background-color: light-dark(#f5f5f5, #181818);
+  color: light-dark(black, white);
+}
+
+a {
+  color: var(--app-color-link);
+}
