@@ -6,7 +6,7 @@ function normalizeProfile(profile = {}, user = null) {
   return {
     displayName: String(profile.displayName || user?.displayName || user?.email?.split("@")[0] || "Proofly user").trim(),
     email: user?.email || profile.email || "",
-    photoData: String(profile.photoData || ""),
+    photoData: String(profile.photoData || user?.photoURL || ""),
     updatedAt: profile.updatedAt || new Date().toISOString()
   };
 }
