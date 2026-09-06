@@ -248,7 +248,6 @@ function bindActions(receiptForm) {
       $("[data-auth-form] .button").firstChild.textContent = state.authMode === "create" ? "Create account " : "Sign in ";
       $("[data-auth-form] input[name='password']").setAttribute("autocomplete", state.authMode === "create" ? "new-password" : "current-password");
     }
-    if (action === "toggle-theme") setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
     if (action === "export-vault") exportVault();
     if (action === "upgrade") showToast("Upgrade billing will be available soon.");
     if (action === "upload-receipt") document.querySelector("[data-upload-input]")?.click();
@@ -314,12 +313,3 @@ getGoogleRedirectResult().then((user) => {
 if (new URLSearchParams(window.location.search).get("auth") === "required") {
   window.setTimeout(() => { openModal("auth"); showToast("Sign in to use your vault."); }, 0);
 }
-
-function setTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  document.documentElement.classList.toggle("is-dark", theme === "dark");
-  localStorage.setItem("proofly-theme", theme);
-}
-
-const savedTheme = localStorage.getItem("proofly-theme");
-setTheme(savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
