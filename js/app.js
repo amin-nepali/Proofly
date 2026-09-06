@@ -3,13 +3,6 @@ import { bindImageUpload, closeScanner, openScanner } from "./scanner.js";
 import { addQrCode, addReceipt, deleteQrCode, deleteReceipt, isExpiringSoon, MAX_FREE_RECEIPTS, subscribeToQrCodes, subscribeToReceipts } from "./vault.js";
 
 const state = { user: null, receipts: [], qrCodes: [], filter: "all", qrFilter: "all", query: "", authMode: "signIn", unsubscribe: () => {}, unsubscribeQr: () => {}, activeQr: null };
-const demoReceipts = [
-  { id: "demo-sony", productName: "Sony WH-1000XM5", category: "Electronics", amount: 348, purchaseDate: "2025-03-14", warrantyUntil: "2026-03-14" },
-  { id: "demo-dyson", productName: "Dyson V15 Detect Absolute", category: "Home", amount: 749, purchaseDate: "2024-06-02", warrantyUntil: "2026-06-27" },
-  { id: "demo-apple", productName: "MacBook Air M3", category: "Electronics", amount: 1099, purchaseDate: "2026-01-22", warrantyUntil: "2027-01-22" },
-  { id: "demo-patagonia", productName: "Patagonia Torrentshell", category: "Apparel", amount: 179, purchaseDate: "2026-02-08", warrantyUntil: "" }
-];
-
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const qrTypeLabels = { wifi: "Wi-Fi", bank: "Bank account", wallet: "Wallet", merchant: "Merchant", payment: "Payment", contact: "Contact", other: "Other" };
@@ -76,7 +69,7 @@ function renderReceipts() {
   });
   const visible = cards.some((card) => !card.hidden);
   empty.hidden = visible;
-  staticCards.forEach((card) => { card.hidden = Boolean(state.user) || !visible; });
+  staticCards.forEach((card) => { card.hidden = true; });
   updateStats(receipts);
 }
 
@@ -273,7 +266,7 @@ function bindActions(receiptForm) {
 }
 
 function exportVault() {
-  const data = state.user ? state.receipts : demoReceipts;
+  const data = state.receipts;
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "proofly-vault.json"; link.click(); URL.revokeObjectURL(link.href);
   showToast("Your vault export is ready.");

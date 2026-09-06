@@ -2,12 +2,6 @@ import { isUserVerified, observeAuthState } from "./auth.js";
 import { deleteReceipt, isExpiringSoon, subscribeToReceipts } from "./vault.js";
 import { initPageShell } from "./page-common.js";
 
-const demoReceipts = [
-  { id: "demo-sony", productName: "Sony WH-1000XM5", category: "Electronics", amount: 348, purchaseDate: "2025-03-14", warrantyUntil: "2026-03-14", imageUrl: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80" },
-  { id: "demo-dyson", productName: "Dyson V15 Detect Absolute", category: "Home", amount: 749, purchaseDate: "2024-06-02", warrantyUntil: "2026-06-27", imageUrl: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=700&q=80" },
-  { id: "demo-apple", productName: "MacBook Air M3", category: "Electronics", amount: 1099, purchaseDate: "2026-01-22", warrantyUntil: "2027-01-22", imageUrl: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=700&q=80" },
-  { id: "demo-patagonia", productName: "Patagonia Torrentshell", category: "Apparel", amount: 179, purchaseDate: "2026-02-08", warrantyUntil: "", imageUrl: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?auto=format&fit=crop&w=700&q=80" }
-];
 const state = { user: null, receipts: [], filter: "all", query: "", unsubscribe: () => {} };
 const $ = (selector) => document.querySelector(selector);
 
@@ -28,7 +22,7 @@ function renderCard(receipt) {
 
 function render() {
   const list = $("[data-product-list]");
-  const items = state.user && state.receipts.length ? state.receipts : demoReceipts;
+  const items = state.receipts;
   const filtered = items.filter((item) => (state.filter === "all" || item.category.toLowerCase().includes(state.filter)) && (!state.query || `${item.productName} ${item.category}`.toLowerCase().includes(state.query)));
   list.replaceChildren(...filtered.map(renderCard));
   $("[data-empty]").hidden = filtered.length > 0;
