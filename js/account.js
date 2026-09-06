@@ -9,8 +9,19 @@ function initials(profile) { return (profile?.displayName || "AM").split(/\s+/).
 function setDrawer(open) { const drawer = document.querySelector("[data-account-drawer]"); if (!drawer) return; drawer.classList.toggle("is-open", open); drawer.setAttribute("aria-hidden", String(!open)); document.body.classList.toggle("drawer-open", open); }
 function updateIdentity(profile) { const photo = profile?.photoData || ""; document.querySelectorAll("[data-profile-avatar]").forEach((element) => { element.textContent = photo ? "" : initials(profile); element.style.backgroundImage = photo ? `url(${photo})` : ""; }); document.querySelectorAll("[data-profile-name]").forEach((element) => { element.textContent = profile?.displayName || "Account"; }); document.querySelectorAll("[data-profile-email]").forEach((element) => { element.textContent = profile?.email || ""; }); document.querySelectorAll(".avatar-button").forEach((element) => { element.textContent = photo ? "" : initials(profile); element.style.backgroundImage = photo ? `url(${photo})` : ""; element.classList.toggle("has-photo", Boolean(photo)); }); }
 
+function normalizeFormFields(root = document) {
+	const fields = root.matches?.("input, textarea, select") ? [root, ...root.querySelectorAll("input, textarea, select")] : [...root.querySelectorAll("input, textarea, select")];
+	fields.forEach((field, index) => {
+		if (!field.name && !field.id) field.name = `${field.type || field.tagName.toLowerCase()}-${index + 1}`;
+		if (!field.id) field.id = field.name;
+		if (!field.autocomplete) field.autocomplete = field.type === "file" ? "off" : "off";
+	});
+}
+
 document.body.insertAdjacentHTML("beforeend", drawerMarkup);
 initPageShell();
+normalizeFormFields();
+new MutationObserver((mutations) => mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => { if (node.nodeType === Node.ELEMENT_NODE) normalizeFormFields(node); }))).observe(document.body, { childList: true, subtree: true });
 const drawerProfile = document.querySelector(".drawer-profile");
 drawerProfile?.classList.add("drawer-profile-link");
 drawerProfile?.setAttribute("role", "link");
