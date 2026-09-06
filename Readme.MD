@@ -6,6 +6,23 @@ Proofly is a mobile-first Progressive Web App for keeping proof of purchase clos
 
 The application is designed for static hosting, including GitHub Pages. It uses semantic HTML, modern CSS, vanilla JavaScript modules, and Firebase's browser SDKs without a build step for the main application.
 
+## Project Ecosystem
+
+<p align="center">
+	<a href="https://getbootstrap.com/"><img src="https://img.shields.io/badge/Bootstrap-UI%20ecosystem-7952B3?logo=bootstrap&logoColor=white" alt="Bootstrap"></a>
+	<a href="https://cdnjs.com/"><img src="https://img.shields.io/badge/cdnjs-CDN-EB4B4B?logo=cdnjs&logoColor=white" alt="cdnjs"></a>
+	<a href="https://unpkg.com/"><img src="https://img.shields.io/badge/UNPKG-CDN-EF2D5E?logo=npm&logoColor=white" alt="UNPKG"></a>
+	<a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Firebase-Auth%20%26%20Firestore-FFCA28?logo=firebase&logoColor=111827" alt="Firebase"></a>
+	<a href="https://analytics.google.com/"><img src="https://img.shields.io/badge/Google%20Analytics-Product%20insights-E37400?logo=googleanalytics&logoColor=white" alt="Google Analytics"></a>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"><img src="https://img.shields.io/badge/HSTS-HTTPS%20hardening-4C1D95?logo=letsencrypt&logoColor=white" alt="HSTS"></a>
+	<a href="https://www.cloudflare.com/"><img src="https://img.shields.io/badge/Cloudflare-Edge%20security-F38020?logo=cloudflare&logoColor=white" alt="Cloudflare"></a>
+	<a href="https://vercel.com/"><img src="https://img.shields.io/badge/Vercel-Deployment-000000?logo=vercel&logoColor=white" alt="Vercel"></a>
+</p>
+
+<p align="center"><strong>Secure by design. Fast to open. Ready to install.</strong></p>
+
+> **Ecosystem note:** Proofly's active root application uses Firebase, `cdnjs`, and `UNPKG` directly. Bootstrap, Cloudflare, HSTS, Google Analytics, and Vercel represent the surrounding UI, delivery, analytics, security, and hosting ecosystem and should be enabled or configured according to the deployment environment.
+
 ## Features
 
 - Email/password and Google sign-in through Firebase Authentication
