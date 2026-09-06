@@ -20,6 +20,7 @@
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
   <script type="module" src="js/app.js" defer></script>
+  <script type="module" src="js/account.js" defer></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("sw.js", { scope: "./" }));
@@ -39,7 +40,7 @@
         <button class="icon-button theme-toggle" type="button" data-action="toggle-theme" aria-label="Toggle color theme" title="Toggle color theme">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2M5.64 5.64l1.42 1.42m9.9 9.9 1.4 1.4M3 12h2m14 0h2M5.64 18.36l1.42-1.4m9.9-9.9 1.4-1.42M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
         </button>
-        <button class="avatar-button" type="button" data-action="open-auth" aria-label="Open account menu">AM</button>
+        <button class="avatar-button" type="button" aria-label="Open account menu">AM</button>
       </nav>
     </header>
 
@@ -66,25 +67,25 @@
         </div>
       </section>
 
-      <section class="stats-grid" aria-label="Vault summary">
+      <section class="stats-grid" aria-label="Vault summary" data-auth-required hidden>
         <article class="stat-card stat-card-dark">
           <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v14l-8-3-8 3V6a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 11h6"/></svg></div>
           <div><p class="stat-label">Total saved</p><p class="stat-value" data-stat="total">12 <small>receipts</small></p></div>
-          <span class="stat-trend">+3 this month</span>
+          <span class="stat-trend" data-stat="monthly">+0 this month</span>
         </article>
         <article class="stat-card stat-card-sage">
           <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div>
-          <div><p class="stat-label">Protected value</p><p class="stat-value">$4,280<small> tracked</small></p></div>
-          <span class="stat-trend is-dark">this year</span>
+          <div><p class="stat-label">Protected value</p><p class="stat-value" data-stat="value">$0<small> tracked</small></p></div>
+          <span class="stat-trend is-dark" data-stat="year">this year</span>
         </article>
         <article class="stat-card stat-card-coral">
           <div class="stat-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 8v4l2.5 2.5"/><circle cx="12" cy="12" r="8"/></svg></div>
-          <div><p class="stat-label">Expiring soon</p><p class="stat-value">02 <small>warranties</small></p></div>
-          <span class="stat-trend is-alert">within 30 days</span>
+          <div><p class="stat-label">Expiring soon</p><p class="stat-value" data-stat="expiring">00 <small>warranties</small></p></div>
+          <span class="stat-trend is-alert" data-stat="expiry-label">within 30 days</span>
         </article>
       </section>
 
-      <section class="home-launchers" aria-labelledby="workspace-title">
+      <section class="home-launchers" aria-labelledby="workspace-title" data-auth-required hidden>
         <div class="section-heading"><div><p class="eyebrow">Your workspace</p><h2 id="workspace-title">Open a vault</h2></div><p>Keep the home screen calm. Jump into the right collection when you are ready.</p></div>
         <div class="launcher-grid">
           <a class="launcher-card launcher-receipts" href="vault.html"><span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-7-3-7 3V4Z"/><path d="M8 8h8M8 11h6"/></svg></span><span><strong>Purchased items</strong><small>Receipts, warranties, and product images</small></span><span class="launcher-arrow" aria-hidden="true">&#8594;</span></a>
@@ -148,7 +149,7 @@
         <div class="qr-grid" data-qr-list></div>
         <div class="qr-empty" data-qr-empty><div class="qr-empty-mark">⌗</div><h3>Your QR shelf is empty</h3><p>Capture a code once, then regenerate it whenever you need to share it.</p><button class="button button-secondary" type="button" data-action="open-qr-capture">Save your first QR</button></div>
       </section>
-      <aside class="upgrade-banner"><div class="upgrade-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.1 5.3L20 10l-4.5 3.8L16.8 20 12 16.8 7.2 20l1.3-6.2L4 10l5.9-1.7L12 3Z"/></svg></div><div><strong>Make room for more proof</strong><p>You are using 12 of 15 free receipt slots.</p></div><button class="button button-light" type="button" data-action="upgrade">Upgrade plan <span aria-hidden="true">&#8594;</span></button></aside>
+      <aside class="upgrade-banner" data-auth-required hidden><div class="upgrade-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.1 5.3L20 10l-4.5 3.8L16.8 20 12 16.8 7.2 20l1.3-6.2L4 10l5.9-1.7L12 3Z"/></svg></div><div><strong>Make room for more proof</strong><p>You are using 12 of 15 free receipt slots.</p></div><button class="button button-light" type="button" data-action="upgrade">Upgrade plan <span aria-hidden="true">&#8594;</span></button></aside>
     </main>
     <footer class="site-footer"><span>Proofly by Amin</span><span>Private by design. Built for peace of mind.</span><a href="#privacy">Privacy</a></footer>
   </div>

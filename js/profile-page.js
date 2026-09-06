@@ -1,0 +1,12 @@
+import { getAuthErrorMessage, observeAuthState, sendPasswordReset, updateUserPassword } from "./auth.js";
+import { compressProfileImage, getProfile, saveProfile } from "./profile.js";
+
+const $ = (selector) => document.querySelector(selector);
+let currentUser = null;
+let currentProfile = null;
+function toast(message) { const element = $("[data-profile-toast]"); element.textContent = message; element.classList.add("is-visible"); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove("is-visible"), 3200); }
+function render(profile) { currentProfile = profile; $("[data-profile-name]").textContent = profile.displayName; $("[data-profile-email]").textContent = profile.email; $("[data-profile-form] input[name='displayName']").value = profile.displayName; document.querySelectorAll("[data-profile-avatar]").forEach((element) => { element.textContent = profile.photoData ? "" : profile.displayName.slice(0, 2).toUpperCase(); element.style.backgroundImage = profile.photoData ? `url(${profile.photoData})` : ""; }); }
+observeAuthState(async (user) => { if (!user) { window.location.href = "index.html"; return; } currentUser = user; render(await getProfile(user)); });
+$("[data-profile-form]").addEventListener("submit", async (event) => { event.preventDefault(); try { const data = Object.fromEntries(new FormData(event.currentTarget)); let photoData = currentProfile?.photoData || ""; const file = event.currentTarget.elements.photo.files[0]; if (file) photoData = await compressProfileImage(file); render(await saveProfile(currentUser, { displayName: data.displayName, photoData })); toast("Profile saved across your devices."); } catch (error) { toast(error.message || "Could not save profile."); } });
+$("[data-password-form]").addEventListener("submit", async (event) => { event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget)); if (data.password !== data.confirmPassword) { toast("Passwords do not match."); return; } try { await updateUserPassword(data.password); event.currentTarget.reset(); toast("Password updated."); } catch (error) { toast(error.code === "auth/requires-recent-login" ? "For security, use the reset email below to continue." : getAuthErrorMessage(error)); } });
+$("[data-profile-action='reset']").addEventListener("click", async () => { try { await sendPasswordReset(currentProfile.email); toast("Password reset email sent."); } catch (error) { toast(getAuthErrorMessage(error)); } });

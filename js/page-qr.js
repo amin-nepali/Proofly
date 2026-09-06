@@ -48,4 +48,4 @@ document.addEventListener("click", async (event) => {
   if (remove && state.user && window.confirm("Delete this QR code?")) { await deleteQrCode(state.user, remove.dataset.deleteQr); state.qrCodes = state.qrCodes.filter((item) => item.id !== remove.dataset.deleteQr); render(); toast("QR code deleted."); }
 });
 initPageShell();
-observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToQrCodes(verifiedUser, (qrCodes) => { state.qrCodes = qrCodes; render(); }); render(); });
+observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; if (!verifiedUser) { window.location.replace("index.html?auth=required"); return; } state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToQrCodes(verifiedUser, (qrCodes) => { state.qrCodes = qrCodes; render(); }); render(); });

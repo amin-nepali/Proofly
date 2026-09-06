@@ -77,14 +77,22 @@ function renderReceipts() {
   const visible = cards.some((card) => !card.hidden);
   empty.hidden = visible;
   staticCards.forEach((card) => { card.hidden = Boolean(state.user) || !visible; });
-  updateStats(receipts.length ? receipts : demoReceipts);
+  updateStats(receipts);
 }
 
 function updateStats(receipts) {
   const expiringCount = receipts.filter((receipt) => isExpiringSoon(receipt)).length;
+  const protectedValue = receipts.reduce((total, receipt) => total + (Number(receipt.amount) || 0), 0);
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  const monthlyCount = receipts.filter((receipt) => receipt.createdAt && new Date(receipt.createdAt) >= monthStart).length;
   const total = $("[data-stat='total']");
   if (total) total.innerHTML = `${receipts.length} <small>receipts</small>`;
-  const expiring = $(".stat-card-coral .stat-value");
+  const value = $("[data-stat='value']");
+  if (value) value.innerHTML = `${formatCurrency(protectedValue)}<small> tracked</small>`;
+  const monthly = $("[data-stat='monthly']");
+  if (monthly) monthly.textContent = `+${monthlyCount} this month`;
+  const expiring = $("[data-stat='expiring']");
   if (expiring) expiring.innerHTML = `${String(expiringCount).padStart(2, "0")} <small>warranties</small>`;
   const upgrade = $(".upgrade-banner p");
   if (upgrade) upgrade.textContent = `You are using ${receipts.length} of ${MAX_FREE_RECEIPTS} free receipt slots.`;
@@ -96,6 +104,7 @@ function renderAuthState(user) {
   const avatar = $(".avatar-button");
   avatar.textContent = user ? (user.displayName || user.email || "A").slice(0, 2).toUpperCase() : "AM";
   avatar.setAttribute("aria-label", user ? "Sign out" : "Open account menu");
+  document.querySelectorAll("[data-auth-required]").forEach((element) => { element.hidden = !user; });
   renderReceipts();
 }
 
@@ -294,6 +303,10 @@ bindImageUpload(qrUploadInput, (result) => {
   showToast(result ? "QR information captured. Give it a name." : "No QR code found in that image.");
 }, "qr-reader");
 observeAuthState(handleAuthUser);
+
+if (new URLSearchParams(window.location.search).get("auth") === "required") {
+  window.setTimeout(() => { openModal("auth"); showToast("Sign in to use your vault."); }, 0);
+}
 
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;

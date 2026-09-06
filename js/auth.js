@@ -94,6 +94,16 @@ export async function refreshCurrentUser() {
   return auth.currentUser;
 }
 
+export async function updateUserPassword(password) {
+  if (!firebaseAvailable || !auth.currentUser) throw new Error("You must be signed in.");
+  await auth.currentUser.updatePassword(password);
+}
+
+export async function sendPasswordReset(email) {
+  if (!firebaseAvailable) return;
+  await auth.sendPasswordResetEmail(email);
+}
+
 export async function signOut() {
   if (firebaseAvailable) {
     await auth.signOut();

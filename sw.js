@@ -1,16 +1,20 @@
-const CACHE_NAME = "proofly-shell-v16";
+const CACHE_NAME = "proofly-shell-v19";
 const BASE_PATH = new URL("./", self.registration.scope).pathname;
 const APP_SHELL = [
   BASE_PATH,
   `${BASE_PATH}index.html`,
   `${BASE_PATH}vault.html`,
   `${BASE_PATH}qr-vault.html`,
+  `${BASE_PATH}profile.html`,
   `${BASE_PATH}styles.css`,
   `${BASE_PATH}manifest.json`,
   `${BASE_PATH}icons/icon.svg`,
   `${BASE_PATH}icons/proofly-logo.svg`,
   `${BASE_PATH}js/firebase-config.js`,
   `${BASE_PATH}js/firebase-bootstrap.js`,
+  `${BASE_PATH}js/profile.js`,
+  `${BASE_PATH}js/profile-page.js`,
+  `${BASE_PATH}js/account.js`,
   `${BASE_PATH}js/auth.js`,
   `${BASE_PATH}js/scanner.js`,
   `${BASE_PATH}js/vault.js`,

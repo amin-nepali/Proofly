@@ -43,4 +43,4 @@ document.addEventListener("click", async (event) => {
 });
 $("[data-search]").addEventListener("input", (event) => { state.query = event.target.value.toLowerCase().trim(); render(); });
 initPageShell();
-observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToReceipts(verifiedUser, (receipts) => { state.receipts = receipts; render(); }); render(); });
+observeAuthState((user) => { const verifiedUser = user && isUserVerified(user) ? user : null; if (!verifiedUser) { window.location.replace("index.html?auth=required"); return; } state.user = verifiedUser; state.unsubscribe(); state.unsubscribe = subscribeToReceipts(verifiedUser, (receipts) => { state.receipts = receipts; render(); }); render(); });
