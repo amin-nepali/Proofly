@@ -10,10 +10,13 @@ function getAuthErrorMessage(error) {
     "auth/email-already-in-use": "An account already exists for that email.",
     "auth/weak-password": "Use a password with at least six characters.",
     "auth/popup-closed-by-user": "The sign-in window was closed.",
+    "auth/popup-blocked": "Your browser blocked the sign-in window. Please try again.",
     "auth/unauthorized-domain": "This site is not authorized for Google sign-in. Add its domain in Firebase Authentication settings.",
     "auth/operation-not-supported-in-this-environment": "Google sign-in is not supported in this browser context.",
     "auth/network-request-failed": "Network connection failed. Check your connection and try again.",
     "auth/operation-not-allowed": "This sign-in method is not enabled yet.",
+    "auth/invalid-credential": "Those sign-in details are not valid. Please try again.",
+    "auth/internal-error": "Google sign-in could not be completed. Please try again.",
     "auth/email-not-verified": "Verify your email address before signing in.",
     "auth/too-many-requests": "Too many attempts. Please wait and try again."
   };
@@ -46,6 +49,12 @@ export async function signInWithGoogle() {
     return saveLocalUser({ uid: "local-demo-user", displayName: "Amin", email: "demo@proofly.app", isLocal: true });
   }
   await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
+  const isMobileBrowser = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  const isInstalledPwa = window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  if (isMobileBrowser || isInstalledPwa) {
+    await auth.signInWithRedirect(googleProvider);
+    return null;
+  }
   try {
     const result = await auth.signInWithPopup(googleProvider);
     return result.user;
