@@ -45,6 +45,7 @@ export async function signInWithGoogle() {
   if (!firebaseAvailable) {
     return saveLocalUser({ uid: "local-demo-user", displayName: "Amin", email: "demo@proofly.app", isLocal: true });
   }
+  await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
   try {
     const result = await auth.signInWithPopup(googleProvider);
     return result.user;

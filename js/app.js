@@ -301,10 +301,18 @@ bindImageUpload(qrUploadInput, (result) => {
   $("[data-qr-form] input[name='name']").focus();
   showToast(result ? "QR information captured. Give it a name." : "No QR code found in that image.");
 }, "qr-reader");
-observeAuthState(handleAuthUser);
+let redirectSignInComplete = false;
+observeAuthState((user) => {
+  handleAuthUser(user);
+  if (user && redirectSignInComplete) {
+    closeModal($("[data-modal='auth']"));
+    showToast("Welcome to your vault.");
+  }
+});
 
 getGoogleRedirectResult().then((user) => {
   if (!user) return;
+  redirectSignInComplete = true;
   handleAuthUser(user);
   closeModal($("[data-modal='auth']"));
   showToast("Welcome to your vault.");
