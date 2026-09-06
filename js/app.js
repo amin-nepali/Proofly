@@ -1,4 +1,4 @@
-import { getAuthErrorMessage, isUserVerified, observeAuthState, refreshCurrentUser, resendVerificationEmail, signInWithEmail, signInWithGoogle, signOut } from "./auth.js";
+import { getAuthErrorMessage, getGoogleRedirectResult, isUserVerified, observeAuthState, refreshCurrentUser, resendVerificationEmail, signInWithEmail, signInWithGoogle, signOut } from "./auth.js";
 import { bindImageUpload, closeScanner, openScanner } from "./scanner.js";
 import { addQrCode, addReceipt, deleteQrCode, deleteReceipt, isExpiringSoon, MAX_FREE_RECEIPTS, subscribeToQrCodes, subscribeToReceipts } from "./vault.js";
 
@@ -303,6 +303,13 @@ bindImageUpload(qrUploadInput, (result) => {
   showToast(result ? "QR information captured. Give it a name." : "No QR code found in that image.");
 }, "qr-reader");
 observeAuthState(handleAuthUser);
+
+getGoogleRedirectResult().then((user) => {
+  if (!user) return;
+  handleAuthUser(user);
+  closeModal($("[data-modal='auth']"));
+  showToast("Welcome to your vault.");
+}).catch((error) => showToast(getAuthErrorMessage(error)));
 
 if (new URLSearchParams(window.location.search).get("auth") === "required") {
   window.setTimeout(() => { openModal("auth"); showToast("Sign in to use your vault."); }, 0);

@@ -10,6 +10,9 @@ function getAuthErrorMessage(error) {
     "auth/email-already-in-use": "An account already exists for that email.",
     "auth/weak-password": "Use a password with at least six characters.",
     "auth/popup-closed-by-user": "The sign-in window was closed.",
+    "auth/unauthorized-domain": "This site is not authorized for Google sign-in. Add its domain in Firebase Authentication settings.",
+    "auth/operation-not-supported-in-this-environment": "Google sign-in is not supported in this browser context.",
+    "auth/network-request-failed": "Network connection failed. Check your connection and try again.",
     "auth/operation-not-allowed": "This sign-in method is not enabled yet.",
     "auth/email-not-verified": "Verify your email address before signing in.",
     "auth/too-many-requests": "Too many attempts. Please wait and try again."
@@ -46,12 +49,18 @@ export async function signInWithGoogle() {
     const result = await auth.signInWithPopup(googleProvider);
     return result.user;
   } catch (error) {
-    if (["auth/popup-blocked", "auth/popup-timeout", "auth/cancelled-popup-request"].includes(error?.code)) {
+    if (["auth/popup-blocked", "auth/popup-timeout", "auth/cancelled-popup-request", "auth/popup-closed-by-user"].includes(error?.code)) {
       await auth.signInWithRedirect(googleProvider);
       return null;
     }
     throw error;
   }
+}
+
+export async function getGoogleRedirectResult() {
+  if (!firebaseAvailable) return null;
+  const result = await auth.getRedirectResult();
+  return result?.user || null;
 }
 
 export async function signInWithEmail(email, password, createAccount = false) {
