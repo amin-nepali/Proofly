@@ -1,4 +1,4 @@
-const CACHE_NAME = "proofly-shell-v23";
+const CACHE_NAME = "proofly-shell-v24";
 const BASE_PATH = new URL("./", self.registration.scope).pathname;
 const APP_SHELL = [
   BASE_PATH,

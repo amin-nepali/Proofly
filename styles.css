@@ -68,7 +68,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .icon-button { width: 38px; height: 38px; border-radius: 50%; }
 .icon-button:hover, .more-button:hover { color: var(--accent-primary); background: var(--accent-wash); transform: translateY(-2px); }
 .icon-button svg { width: 18px; }
-.avatar-button { width: 36px; height: 36px; border-radius: 50%; color: white; background: linear-gradient(135deg, #ec4899, #8b5cf6); font-size: 11px; font-weight: 700; box-shadow: 0 6px 16px rgba(139, 92, 246, .25); }
+.avatar-button { width: 36px; height: 36px; border-radius: 50%; color: white; background: linear-gradient(135deg, #ec4899, #8b5cf6); background-position: center; background-repeat: no-repeat; background-size: cover; font-size: 11px; font-weight: 700; box-shadow: 0 6px 16px rgba(139, 92, 246, .25); }
 .avatar-button:hover { transform: scale(1.08); }
 main { padding: clamp(52px, 8vw, 100px) 0 50px; }
 .welcome-section { display: flex; align-items: end; justify-content: space-between; gap: 32px; animation: rise-in .65s ease both; }
