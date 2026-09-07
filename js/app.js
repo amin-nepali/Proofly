@@ -237,9 +237,23 @@ function bindActions(receiptForm) {
     }
     if (action === "switch-auth") {
       state.authMode = state.authMode === "signIn" ? "create" : "signIn";
-      actionElement.textContent = state.authMode === "create" ? "Sign in instead" : "Create an account";
-      $("[data-auth-form] .button").firstChild.textContent = state.authMode === "create" ? "Create account " : "Sign in ";
-      $("[data-auth-form] input[name='password']").setAttribute("autocomplete", state.authMode === "create" ? "new-password" : "current-password");
+      const authTitle = $("[data-auth-title]");
+      const authSubtitle = $("[data-auth-subtitle]");
+      const authNote = $("[data-auth-note]");
+      const switchButton = $("[data-action='switch-auth']");
+      const nameField = $("[data-name-field]");
+      const confirmField = $("[data-confirm-field]");
+      const buttonLabel = $("[data-auth-form] .button-label");
+      const isCreate = state.authMode === "create";
+
+      authTitle.textContent = isCreate ? "CREATE ACCOUNT" : "WELCOME BACK";
+      authSubtitle.textContent = isCreate ? "Create your Proofly vault and start tracking every purchase." : "Sign in to sync every receipt across your devices.";
+      authNote.textContent = isCreate ? "Already have an account?" : "New here?";
+      switchButton.textContent = isCreate ? "Sign in instead" : "Create an account";
+      buttonLabel.textContent = isCreate ? "Create account" : "Sign in";
+      nameField.hidden = !isCreate;
+      confirmField.hidden = !isCreate;
+      $("[data-auth-form] input[name='password']").setAttribute("autocomplete", isCreate ? "new-password" : "current-password");
     }
     if (action === "export-vault") exportVault();
     if (action === "upgrade") showToast("Upgrade billing will be available soon.");

@@ -155,12 +155,31 @@
 
   <dialog class="modal" id="auth-modal" data-modal="auth">
     <button class="modal-close" type="button" data-action="close-modal" aria-label="Close account dialog">&times;</button>
-    <div class="modal-heading auth-heading"><h2>LOGIN</h2><p>Sign in to sync every receipt across your devices.</p></div>
+    <div class="modal-heading auth-heading">
+      <span class="auth-kicker">Proofly access</span>
+      <h2 data-auth-title>WELCOME BACK</h2>
+      <p data-auth-subtitle>Sign in to sync every receipt across your devices.</p>
+    </div>
+    
     <div class="verification-panel" data-verification-panel hidden><strong>Check your inbox</strong><p>We sent a verification link to your email. Verify it, then continue below.</p><div><button class="text-button" type="button" data-action="resend-verification">Resend email</button><button class="text-button" type="button" data-action="check-verification">I verified it</button></div></div>
     <button class="button google-button" type="button" data-action="google-sign-in"><span class="google-g">G</span> Continue with Google</button>
     <div class="divider"><span>or use email</span></div>
-    <form class="auth-form" data-auth-form><label>Email address<input type="email" name="email" autocomplete="email" required></label><label>Password<input type="password" name="password" autocomplete="current-password" minlength="6" required></label><button class="button button-primary" type="submit">Sign in <span aria-hidden="true">&#8594;</span></button></form>
-    <p class="form-note">New here? <button type="button" class="inline-button" data-action="switch-auth">Create an account</button></p>
+    <form class="auth-form" data-auth-form>
+      <div class="auth-form-grid">
+        <label class="auth-field auth-field-wide" data-name-field hidden>
+          Full name
+          <input type="text" name="displayName" autocomplete="name" placeholder="Your full name">
+        </label>
+        <label class="auth-field">Email address<input type="email" name="email" autocomplete="email" required></label>
+        <label class="auth-field">Password<input type="password" name="password" autocomplete="current-password" minlength="6" required></label>
+        <label class="auth-field" data-confirm-field hidden>
+          Confirm password
+          <input type="password" name="confirmPassword" autocomplete="new-password" minlength="6" placeholder="Repeat your password">
+        </label>
+      </div>
+      <button class="button button-primary" type="submit"><span class="button-label">Sign in</span> <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <p class="form-note"><span data-auth-note>New here?</span> <button type="button" class="inline-button" data-action="switch-auth">Create an account</button></p>
   </dialog>
 
   <dialog class="modal scanner-modal" id="scanner-modal" data-modal="scanner">
