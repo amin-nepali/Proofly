@@ -6,7 +6,9 @@ function getAuthErrorMessage(error) {
   const messages = {
     "auth/invalid-email": "Enter a valid email address.",
     "auth/user-not-found": "No account was found for that email.",
+    "auth/user-disabled": "This account has been disabled. Contact support for help.",
     "auth/wrong-password": "That password is not correct.",
+    "auth/invalid-login-credentials": "Those sign-in details are not valid. Please try again.",
     "auth/email-already-in-use": "An account already exists for that email.",
     "auth/weak-password": "Use a password with at least six characters.",
     "auth/popup-closed-by-user": "The sign-in window was closed.",
@@ -16,6 +18,8 @@ function getAuthErrorMessage(error) {
     "auth/network-request-failed": "Network connection failed. Check your connection and try again.",
     "auth/operation-not-allowed": "This sign-in method is not enabled yet.",
     "auth/invalid-credential": "Those sign-in details are not valid. Please try again.",
+    "auth/redirect-cancelled-by-user": "Google sign-in was cancelled. Please try again.",
+    "auth/web-storage-unsupported": "This browser is blocking sign-in storage. Open Proofly in Safari or Chrome and try again.",
     "auth/internal-error": "Google sign-in could not be completed. Please try again.",
     "auth/email-not-verified": "Verify your email address before signing in.",
     "auth/too-many-requests": "Too many attempts. Please wait and try again."
@@ -44,11 +48,20 @@ export function observeAuthState(onUserChange) {
   return () => {};
 }
 
+async function setAuthPersistence() {
+  try {
+    await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
+  } catch (error) {
+    if (error?.code !== "auth/web-storage-unsupported") throw error;
+    await auth.setPersistence(window.firebase.auth.Auth.Persistence.SESSION);
+  }
+}
+
 export async function signInWithGoogle() {
   if (!firebaseAvailable) {
     return saveLocalUser({ uid: "local-demo-user", displayName: "Amin", email: "demo@proofly.app", isLocal: true });
   }
-  await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
+  await setAuthPersistence();
   const isMobileBrowser = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
   const isInstalledPwa = window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
   if (isMobileBrowser || isInstalledPwa) {
@@ -77,6 +90,7 @@ export async function signInWithEmail(email, password, createAccount = false) {
   if (!firebaseAvailable) {
     return saveLocalUser({ uid: "local-demo-user", displayName: email.split("@")[0], email, isLocal: true });
   }
+  await setAuthPersistence();
   const result = createAccount
     ? await auth.createUserWithEmailAndPassword(email, password)
     : await auth.signInWithEmailAndPassword(email, password);
