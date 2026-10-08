@@ -112,7 +112,7 @@ For example, using Python:
 python -m http.server 8080
 ```
 
-Then open:
+Then open: hahahaha
 
 ```text
 http://localhost:8080/
