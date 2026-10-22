@@ -4,6 +4,8 @@
 
 Proofly is a mobile-first Progressive Web App for keeping proof of purchase close at hand. Save receipts, track warranty dates, scan and regenerate QR codes, and access your vault across devices with Firebase Authentication and Cloud Firestore.
 
+
+
 The application is designed for static hosting, including GitHub Pages. It uses semantic HTML, modern CSS, vanilla JavaScript modules, and Firebase's browser SDKs without a build step for the main application.
 
 ## Project Ecosystem
